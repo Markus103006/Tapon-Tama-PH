@@ -1,12 +1,32 @@
+/* =========================================================
+   TAPON TAMA PH
+   Main Stylesheet
+========================================================= */
+
+
+/* =========================================================
+   1. VARIABLES
+========================================================= */
+
 :root {
   --paper: #f8f7ed;
   --ink: #00533f;
+  --forest: #00533f;
   --muted: #53675e;
   --line: #ced5c9;
   --leaf: #ffbe00;
   --white: #fff;
-  --forest: #00533f;
+
+  --focus: #a45424;
+  --dark-line: #536b5d;
+
+  --max-width: 1240px;
 }
+
+
+/* =========================================================
+   2. RESET / GLOBAL
+========================================================= */
 
 * {
   box-sizing: border-box;
@@ -25,55 +45,79 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+img,
+svg {
+  display: block;
+}
+
+img {
+  max-width: 100%;
+}
+
 a {
   color: inherit;
   text-underline-offset: 4px;
-}
-
-a:focus-visible,
-summary:focus-visible {
-  outline: 3px solid #a45424;
-  outline-offset: 6px;
 }
 
 a:hover {
   text-decoration-thickness: 2px;
 }
 
-.wrap {
-  width: min(1240px, calc(100% - 96px));
-  margin-inline: auto;
+
+/* =========================================================
+   3. ACCESSIBILITY
+========================================================= */
+
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 6px;
 }
 
 .skip {
   position: absolute;
   left: 16px;
   top: -80px;
+
   background: var(--white);
   padding: 16px;
-  z-index: 5;
+
+  z-index: 10;
 }
 
 .skip:focus {
   top: 8px;
 }
 
-/* =========================
-   NAVIGATION
-========================= */
+
+/* =========================================================
+   4. CONTAINER
+========================================================= */
+
+.wrap {
+  width: min(var(--max-width), calc(100% - 96px));
+  margin-inline: auto;
+}
+
+
+/* =========================================================
+   5. NAVIGATION
+========================================================= */
 
 .nav {
   width: 100%;
   max-width: none;
+
   margin-inline: 0;
   padding-inline: 48px;
+
+  min-height: 112px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
 
-  min-height: 112px;
+  gap: 40px;
 
   background: var(--paper);
   border-bottom: 1px solid var(--line);
@@ -84,16 +128,17 @@ a:hover {
 }
 
 
-/* =========================
-   BRAND
-========================= */
+/* ---------------------------------------------------------
+   Brand
+--------------------------------------------------------- */
 
 .brand {
   display: inline-flex;
   align-items: center;
 
-  text-decoration: none;
   flex-shrink: 0;
+
+  text-decoration: none;
 
   transition:
     transform 0.2s ease,
@@ -103,75 +148,20 @@ a:hover {
 .brand img {
   width: 208px;
   height: auto;
-  display: block;
 }
 
 .brand:hover {
   transform: translateY(-2px);
 
-  filter:
-    drop-shadow(0 4px 4px rgba(0, 83, 63, 0.12));
-}
-
-/* =========================
-   NAV BUTTON
-========================= */
-
-.nav-button {
-  min-height: 46px;
-  padding: 0 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: var(--ink);
-  color: var(--paper);
-  border: 1px solid var(--ink);
-}
-
-/* =========================
-   HOVER
-========================= */
-
-.nav-button:hover {
-  background: var(--ink);
-  color: var(--paper);
-  opacity: 1;
-  transform: none;
-}
-
-/* =========================
-   ACTIVE
-========================= */
-
-.nav-button:active {
-  transform: translateY(2px);
-
-  box-shadow:
-    0 1px 0 #003d2e,
-    0 3px 6px rgba(0, 83, 63, 0.12);
-}
-
-/* =========================
-   SOURCE ICON
-========================= */
-
-.source-icon {
-  width: 16px;
-  height: 16px;
-
-  flex-shrink: 0;
-}
-
-.nav-button::after {
-  display: none;
+  filter: drop-shadow(
+    0 4px 4px rgba(0, 83, 63, 0.12)
+  );
 }
 
 
-
-/* =========================
-   NAV LINKS
-========================= */
+/* ---------------------------------------------------------
+   Navigation Links
+--------------------------------------------------------- */
 
 .nav-links {
   display: flex;
@@ -204,11 +194,10 @@ a:hover {
   opacity: 0.75;
 }
 
-.nav-links a::after {
+.nav-links a:not(.nav-button)::after {
   content: "";
 
   position: absolute;
-
   left: 0;
   right: 0;
   bottom: 6px;
@@ -223,43 +212,70 @@ a:hover {
   transition: transform 0.2s ease;
 }
 
-.nav-links a:hover::after,
-.nav-links a:focus-visible::after {
+.nav-links a:not(.nav-button):hover::after,
+.nav-links a:not(.nav-button):focus-visible::after {
   transform: scaleX(1);
 }
 
-.eyebrow {
-  display: flex;
+
+/* ---------------------------------------------------------
+   Sources Button
+--------------------------------------------------------- */
+
+.nav-button {
+  min-height: 46px;
+
+  padding: 0 20px;
+
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+
   gap: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.8px;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.6;
-}
 
-.dot {
-  width: 7px;
-  height: 7px;
   background: var(--ink);
-  border-radius: 50%;
-  flex: none;
+  color: var(--paper);
+
+  border: 1px solid var(--ink);
+
+  text-decoration: none;
 }
 
-/* =========================
-   HERO
-========================= */
+.nav-button:hover {
+  background: var(--ink);
+  color: var(--paper);
+
+  opacity: 1;
+  transform: none;
+}
+
+.nav-button:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    0 1px 0 #003d2e,
+    0 3px 6px rgba(0, 83, 63, 0.12);
+}
+
+.nav-button::after {
+  display: none;
+}
+
+.source-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   6. HERO
+========================================================= */
 
 .hero {
   position: relative;
+
   width: 100%;
-
-  background-image: url("assets/images/tapon-tama-ph-background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
   min-height: 620px;
 
   display: flex;
@@ -267,11 +283,19 @@ a:hover {
 
   padding: 76px 0 72px;
 
+  background-image:
+    url("assets/images/tapon-tama-ph-background.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   overflow: hidden;
 }
 
 .hero::before {
   content: "";
+
   position: absolute;
   inset: 0;
 
@@ -288,66 +312,124 @@ a:hover {
 }
 
 .hero-content {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 28px;
-
   position: relative;
   z-index: 1;
+
+  width: min(1200px, calc(100% - 56px));
+
+  margin-inline: auto;
 }
 
+
+/* ---------------------------------------------------------
+   Hero Eyebrow
+--------------------------------------------------------- */
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+
+  flex: none;
+
+  background: var(--ink);
+  border-radius: 50%;
+}
+
+
+/* ---------------------------------------------------------
+   Hero Heading
+--------------------------------------------------------- */
+
 .hero h1 {
+  margin: 25px 0;
+
   font-family: Georgia, "Times New Roman", serif;
+
   font-size: clamp(52px, 5.6vw, 82px);
   font-weight: 400;
+
   line-height: 1.01;
   letter-spacing: -3.8px;
-  margin: 25px 0;
 
   color: var(--ink);
 }
 
 .hero h1 em {
   font-weight: 400;
-  color: #164936;
+  color: var(--ink);
 }
+
+
+/* ---------------------------------------------------------
+   Hero Copy
+--------------------------------------------------------- */
 
 .lead {
-  font-size: 18px;
-  line-height: 1.65;
   max-width: 470px;
 
-  color: #294c40;
-  font-weight: 500;
-
   margin: 0;
+
+  color: #294c40;
+
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.65;
 }
 
 
-/* =========================
-   HERO BUTTON
-========================= */
+/* ---------------------------------------------------------
+   Hero Note
+--------------------------------------------------------- */
+
+.hero-note {
+  margin: 23px 0 0;
+
+  color: #3f5e51;
+
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   7. BUTTONS
+========================================================= */
 
 .button {
+  min-height: 54px;
+
+  margin-top: 30px;
+  padding: 15px 23px;
+
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
 
-  min-height: 54px;
-  padding: 15px 23px;
+  gap: 30px;
 
   background: var(--ink);
   color: var(--paper);
 
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-
-  margin-top: 30px;
-
   border: 1px solid var(--ink);
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-decoration: none;
 }
 
 .button:hover {
@@ -361,202 +443,134 @@ a:hover {
 }
 
 
-/* =========================
-   HERO NOTE
-========================= */
+/* =========================================================
+   8. BRAND BAND
+========================================================= */
 
-.hero-note {
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  margin: 23px 0 0;
-
-  color: #3f5e51;
-}
-
-.visual {
+.brand-band {
   position: relative;
-  background: var(--leaf);
-  overflow: hidden;
-  aspect-ratio: 1/1.08;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+  background-image: url("assets/images/tapon-tama-ph-brand.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.visual svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.visual-top,
-.visual-bottom {
+.brand-band::before {
+  content: "";
   position: absolute;
-  left: 27px;
-  right: 27px;
+  inset: 0;
+  background: var(--paper);
+  opacity: 0.65;
+}
+
+.brand-band .wrap {
+  position: relative;
+  z-index: 1;
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
   align-items: center;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.7px;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.brand-band p {
+  max-width: 850px;
+  margin: 0;
+  font-size: 21px;
   font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.4px;
 }
 
-.visual-top {
-  top: 28px;
+.brand-band img {
+  width: 90px;
+  height: 90px;
+  flex: 0 0 90px;
+  object-fit: contain;
 }
 
-.visual-bottom {
-  bottom: 28px;
-  line-height: 1.5;
-}
-
-.visual-bottom .circle {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--ink);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 19px;
-}
+/* =========================================================
+   9. DISTINCTION RIBBON
+========================================================= */
 
 .ribbon {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  background: var(--forest);
+  color: var(--paper);
+}
+
+.ribbon-inner {
   display: grid;
-  grid-template-columns: 0.65fr 1.5fr 0.6fr;
-  gap: 24px;
-  padding-block: 25px;
+  grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
+  gap: 48px;
+  padding-block: 28px;
+}
+
+.ribbon .tag {
+  margin: 0;
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .ribbon p {
   margin: 0;
-  font-size: 18px;
+  color: var(--paper);
+  font-size: 14px;
   line-height: 1.45;
 }
 
-.ribbon .tag {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 700;
-}
-
 .ribbon a {
+  justify-self: end;
+  margin: 0;
+  color: var(--paper);
   font-size: 13px;
   font-weight: 700;
   text-align: right;
 }
 
+.ribbon a:hover {
+  color: var(--leaf);
+}
+
+/* =========================================================
+   10. SHARED SECTION STYLES
+========================================================= */
+
 .section {
   padding-block: 74px;
 }
 
-/* =========================
-   ISSUE / INTRO
-========================= */
-
-.intro {
-  display: grid;
-  grid-template-columns: 0.85fr 1.4fr;
-  gap: 80px;
-  align-items: start;
-}
-
-
-/* =========================
-   ISSUE HEADING
-========================= */
-
-.intro-heading {
-  min-width: 0;
-}
-
 .kicker {
+  margin: 0 0 20px;
+
   font-size: 11px;
+  font-weight: 700;
+
   text-transform: uppercase;
   letter-spacing: 1.8px;
-  font-weight: 700;
-  margin: 0 0 20px;
 }
 
 .section h2 {
+  margin: 0;
+
   font-family: Georgia, "Times New Roman", serif;
-  font-weight: 400;
+
   font-size: clamp(34px, 3.4vw, 47px);
+  font-weight: 400;
+
   line-height: 1.12;
   letter-spacing: -1.6px;
-  margin: 0;
-}
-
-
-/* =========================
-   ISSUE IMAGE
-========================= */
-
-.hero-media {
-  margin: 48px 0 0;
-  width: 100%;
-}
-
-.hero-media .scene {
-  width: 100%;
-  overflow: hidden;
-}
-
-.hero-media img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.scene-caption {
-  margin-top: 18px;
-}
-
-.scene-caption small {
-  display: block;
-
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-
-  color: var(--ink);
-}
-
-.scene-caption p {
-  margin: 7px 0 0;
-
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 22px;
-  line-height: 1.2;
-  letter-spacing: -0.4px;
-
-  color: var(--ink);
-}
-
-
-/* =========================
-   ISSUE COPY
-========================= */
-
-.intro-copy {
-  min-width: 0;
 }
 
 .section p {
+  color: var(--muted);
+
   font-size: 16px;
   line-height: 1.7;
-  color: var(--muted);
-}
-
-.intro-copy p:first-child {
-  margin-top: 0;
 }
 
 .source-link {
@@ -564,48 +578,409 @@ a:hover {
 }
 
 
-/* =========================
-   PATHWAY
-========================= */
+/* =========================================================
+   11. ISSUE / INTRO
+========================================================= */
+
+.intro {
+  display: grid;
+
+  grid-template-columns:
+    0.85fr
+    1.4fr;
+
+  gap: 80px;
+
+  align-items: start;
+}
+
+.intro-heading,
+.intro-copy {
+  min-width: 0;
+}
+
+.intro-copy p:first-child {
+  margin-top: 0;
+}
+
+
+/* ---------------------------------------------------------
+   Issue Image
+--------------------------------------------------------- */
+
+.hero-media {
+  position: relative;
+
+  width: 100%;
+
+  margin: 48px 0 0;
+  padding: 14px 0 0 14px;
+
+  isolation: isolate;
+}
+
+.hero-media::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0 15px 22px 0;
+
+  background: var(--leaf);
+
+  transform: rotate(-2deg);
+
+  z-index: -1;
+}
+
+.scene {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  overflow: hidden;
+  background: #214c3b;
+}
+
+.scene > img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.scene::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 45% 0 0;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(0, 35, 24, 0.94)
+    );
+}
+
+
+/* ---------------------------------------------------------
+   Image Caption
+--------------------------------------------------------- */
+
+.scene-caption {
+  position: absolute;
+
+  left: 26px;
+  right: 26px;
+  bottom: 26px;
+
+  z-index: 1;
+
+  color: var(--white);
+}
+
+.scene-caption small {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #ffdc70;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+}
+
+.scene-caption p {
+  max-width: 310px;
+
+  margin: 0;
+
+  color: var(--white);
+
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+
+/* =========================================================
+   12. PATHWAY
+========================================================= */
 
 .pathway {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-
+  gap: 12px;
   margin-top: 28px;
 }
 
 .step {
-  border-top: 1px solid var(--line);
-  padding-top: 18px;
+  padding: 22px;
+  background: var(--forest);
+  color: var(--paper);
+  border: 1px solid var(--forest);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 45, 34, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.step:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 45, 34, 0.14);
+}
+
+.step span {
+  display: block;
+  color: var(--leaf);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .step b {
   display: block;
-  font-size: 14px;
   margin: 13px 0 8px;
-}
-
-.step span {
-  font-size: 11px;
-  letter-spacing: 1px;
+  color: var(--paper);
+  font-size: 14px;
 }
 
 .step p {
+  margin: 0;
+  color: var(--paper);
   font-size: 13px;
   line-height: 1.55;
-  margin: 0;
 }
 
+.cause-impact {
+  grid-column: 1 / -1;
+
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   13. AFTER USE / WASTE JOURNEY
+========================================================= */
+
+.after-use {
+  position: relative;
+  border-top: 1px solid var(--line);
+
+  background-image:
+    url("assets/images/tapon-tama-ph-after-use.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+.after-use::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(248, 247, 237, 0.98) 0%,
+    rgba(248, 247, 237, 0.96) 35%,
+    rgba(248, 247, 237, 0.82) 50%,
+    rgba(248, 247, 237, 0.42) 65%,
+    rgba(248, 247, 237, 0.08) 78%,
+    rgba(248, 247, 237, 0) 88%
+  );
+
+  pointer-events: none;
+}
+
+.after-use-grid {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns:
+    0.85fr
+    1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.after-use-heading,
+.after-use-content {
+  min-width: 0;
+}
+
+
+/* ---------------------------------------------------------
+   Intro
+--------------------------------------------------------- */
+
+.after-use-heading .intro-note {
+  max-width: 360px;
+  margin-top: 28px;
+}
+
+.after-use-kid {
+  display: block;
+  width: min(100%, 300px);
+  height: auto;
+  margin-top: 28px;
+}
+
+/* ---------------------------------------------------------
+   Waste Journey
+--------------------------------------------------------- */
+
+.waste-journey {
+  border-top: 0;
+}
+
+.journey-step {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 18px;
+
+  margin-bottom: 12px;
+  padding: 22px;
+
+  background: var(--paper);
+  border: 1px solid rgba(0, 83, 63, 0.08);
+  border-radius: 4px;
+
+  box-shadow: 0 2px 8px rgba(0, 45, 34, 0.04);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.journey-step:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 83, 63, 0.18);
+  box-shadow: 0 8px 20px rgba(0, 45, 34, 0.09);
+}
+
+.journey-step > span {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--leaf);
+  color: var(--ink);
+
+  border-radius: 50%;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.journey-step b {
+  display: block;
+  margin: 2px 0 7px;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.journey-step p {
+  max-width: 520px;
+  margin: 0;
+
+  font-size: 14px !important;
+  line-height: 1.6;
+}
+
+
+/* ---------------------------------------------------------
+   Journey Connector
+--------------------------------------------------------- */
+
+.journey-line {
+  width: 1px;
+  height: 12px;
+  margin-left: 29px;
+
+  background: var(--line);
+}
+
+
+/* ---------------------------------------------------------
+   Why This Matters
+--------------------------------------------------------- */
+
+.after-use-note {
+  margin-top: 32px;
+  padding: 24px 26px;
+
+  background: var(--paper);
+  border-left: 4px solid var(--leaf);
+}
+
+.after-use-note .tag {
+  margin: 0 0 12px;
+
+  color: var(--ink);
+  font-size: 11px !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.after-use-note p:not(.tag) {
+  margin: 0 0 14px;
+
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.after-use-note p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   14. EVIDENCE
+========================================================= */
+
 .evidence {
-  background: var(--forest);
+  position: relative;
   color: var(--paper);
+
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(0, 45, 34, 0.78) 0%,
+      rgba(0, 45, 34, 0.68) 45%,
+      rgba(0, 45, 34, 0.52) 100%
+    ),
+    url("assets/images/tapon-tama-ph-evidence.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
 }
 
 .evidence-grid {
   display: grid;
-  grid-template-columns: 0.85fr 1.4fr;
+
+  grid-template-columns:
+    0.85fr
+    1.4fr;
+
   gap: 80px;
 }
 
@@ -621,116 +996,359 @@ a:hover {
   max-width: 320px;
 }
 
+
+/* ---------------------------------------------------------
+   Statistic
+--------------------------------------------------------- */
+
 .stat-top {
   display: flex;
   align-items: baseline;
+
   gap: 20px;
+
   padding-bottom: 18px;
-  border-bottom: 1px solid #536b5d;
+
+  border-bottom: 1px solid var(--dark-line);
+
+  flex-wrap: wrap;
 }
 
 .stat-number {
+  white-space: nowrap;
+
   font-family: Georgia, "Times New Roman", serif;
+
   font-size: 104px;
-  letter-spacing: -7px;
   line-height: 1;
+
+  letter-spacing: -7px;
 }
 
 .stat-label {
-  font-size: 13px;
   max-width: 150px;
+
+  font-size: 13px;
   line-height: 1.5;
 }
 
 .evidence .stat-copy {
-  font-size: 18px;
   max-width: 570px;
+
+  font-size: 18px;
 }
 
 .scope {
   display: inline-block;
+
   color: var(--leaf);
+
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1px;
+
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+
+/* ---------------------------------------------------------
+   Evidence Details
+--------------------------------------------------------- */
+
 .evidence details {
+  position: relative;
   margin-top: 23px;
-  border-top: 1px solid #536b5d;
   padding-top: 18px;
+  border-top: 1px solid var(--dark-line);
 }
 
 .evidence summary {
+  min-height: 30px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 700;
-  min-height: 30px;
+  color: var(--paper);
+}
+
+.evidence summary::marker {
+  color: var(--leaf);
 }
 
 .evidence details p {
   font-size: 13px;
 }
 
+.evidence details[open] p {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 5;
+
+  width: min(100%, 570px);
+  margin: 0;
+  padding: 16px 18px;
+
+  background: rgba(0, 45, 34, 0.96);
+  border-left: 3px solid var(--leaf);
+
+  color: #d2ddd3;
+  line-height: 1.6;
+}
+
 .evidence .source-link a {
   color: var(--paper);
 }
+
+
+/* ---------------------------------------------------------
+   Hospital Audit
+--------------------------------------------------------- */
+
+.audit-detail {
+  margin-top: 30px;
+  padding-top: 22px;
+
+  border-top: 1px solid var(--dark-line);
+}
+
+.audit-detail h3 {
+  margin: 14px 0 8px;
+  color: var(--leaf);
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.7px;
+}
+
+.audit-detail p {
+  color: #d2ddd3;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.audit-detail .scope {
+  margin: 0;
+}
+
+.audit-detail .source-link {
+  margin-top: 18px;
+}
+
+
+/* =========================================================
+   15. CLOSING
+========================================================= */
 
 .closing {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 50px;
+
   padding-block: 46px;
 }
 
 .closing p {
+  max-width: 670px;
+
+  margin: 0;
+
   font-family: Georgia, "Times New Roman", serif;
+
   font-size: 29px;
   line-height: 1.3;
+
   letter-spacing: -0.5px;
-  margin: 0;
-  max-width: 670px;
 }
 
 .closing a {
-  font-size: 13px;
-  font-weight: 700;
-  flex: none;
   min-height: 44px;
+
   display: flex;
   align-items: center;
+
+  flex: none;
+
+  font-size: 13px;
+  font-weight: 700;
 }
 
+
+/* =========================================================
+   16. FOOTER
+========================================================= */
+
 .footer {
-  border-top: 1px solid var(--line);
-  padding-block: 24px 30px;
   display: flex;
   justify-content: space-between;
+
   gap: 35px;
+
+  padding-block: 24px 30px;
+
+  border-top: 1px solid var(--line);
 }
 
 .footer p {
+  max-width: 550px;
+
+  margin: 0;
+
+  color: var(--muted);
+
   font-size: 11px;
   line-height: 1.65;
-  color: var(--muted);
-  margin: 0;
-  max-width: 550px;
 }
 
 .footer .credit {
   max-width: 260px;
+
   text-align: right;
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 22px;
+
+  margin-top: 12px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.footer-links a {
+  min-height: 32px;
+
+  display: flex;
+  align-items: center;
+}
+
+
+/* =========================================================
+   17. DISCLAIMER PAGE
+========================================================= */
+
+.disclaimer-page {
+  display: none;
+
+  max-width: 900px;
+
+  margin-inline: auto;
+
+  padding: 42px 40px 60px;
+}
+
+.disclaimer-page:target {
+  display: block;
+}
+
+.disclaimer-page:target ~ .home-page {
+  display: none;
+}
+
+.disclaimer-page header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 38px;
+  padding-bottom: 24px;
+
+  border-bottom: 1px solid var(--line);
+}
+
+.disclaimer-page header strong {
+  font-size: 18px;
+}
+
+.disclaimer-page header a {
+  min-height: 44px;
+
+  display: inline-flex;
+  align-items: center;
+
+  color: var(--ink);
+}
+
+.disclaimer-page h1 {
+  margin: 0 0 28px;
+
+  font-family: Georgia, serif;
+
+  font-size: 46px;
+  font-weight: 400;
+
+  line-height: 1.1;
+  letter-spacing: -1.8px;
+}
+
+.disclaimer-page h2 {
+  margin: 28px 0 10px;
+
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.disclaimer-page p {
+  margin: 0 0 16px;
+
+  color: var(--muted);
+
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.disclaimer-page .kicker {
+  color: var(--ink);
+
+  font-size: 11px;
+}
+
+.disclaimer-page .disclaimer-home {
+  margin-top: 30px;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--line);
+}
+
+/* =========================================================
+   18. TABLET
+   ≤ 1000px
+========================================================= */
+
 @media (max-width: 1000px) {
+
+  /* -------------------------------------------------------
+     Container
+  ------------------------------------------------------- */
+
   .wrap {
     width: calc(100% - 64px);
   }
 
+
+  /* -------------------------------------------------------
+     Navigation
+  ------------------------------------------------------- */
+
+  .nav {
+    padding-inline: 32px;
+  }
+
+
+  /* -------------------------------------------------------
+     Hero
+  ------------------------------------------------------- */
+
   .hero {
-    gap: 34px;
+    min-height: 570px;
     padding-block: 55px;
   }
 
@@ -739,34 +1357,84 @@ a:hover {
     letter-spacing: -2.8px;
   }
 
+
+  /* -------------------------------------------------------
+     Shared Grids
+  ------------------------------------------------------- */
+
   .intro,
   .evidence-grid {
     gap: 45px;
   }
 
+
+  /* -------------------------------------------------------
+     After Use
+  ------------------------------------------------------- */
+
+  .after-use-grid {
+    gap: 45px;
+  }
+
+  .after-use-kid {
+    width: min(100%, 280px);
+  }
+
+  .journey-step {
+    padding: 20px;
+  }
+
+
+  /* -------------------------------------------------------
+     Evidence
+  ------------------------------------------------------- */
+
   .stat-number {
     font-size: 90px;
   }
+
+
+  /* -------------------------------------------------------
+     Ribbon
+  ------------------------------------------------------- */
+
+  .ribbon-inner {
+    grid-template-columns:
+      0.7fr
+      1.5fr
+      0.7fr;
+  }
 }
 
+
+/* =========================================================
+   19. MOBILE
+   ≤ 700px
+========================================================= */
+
 @media (max-width: 700px) {
+
+  /* -------------------------------------------------------
+     Global
+  ------------------------------------------------------- */
+
   .wrap {
     width: calc(100% - 40px);
   }
 
+
+  /* -------------------------------------------------------
+     Navigation
+  ------------------------------------------------------- */
+
   .nav {
     min-height: 85px;
+    padding-inline: 20px;
     gap: 14px;
   }
 
-  .brand {
-    font-size: 19px;
-    gap: 8px;
-  }
-
-  .brand-icon {
-    width: 29px;
-    height: 29px;
+  .brand img {
+    width: 165px;
   }
 
   .nav-links {
@@ -778,31 +1446,88 @@ a:hover {
     display: none;
   }
 
+  .nav-button {
+    min-height: 42px;
+    padding-inline: 14px;
+  }
+
+  .nav-button .source-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+
+  /* -------------------------------------------------------
+     Hero
+  ------------------------------------------------------- */
+
   .hero {
-    grid-template-columns: 1fr;
-    gap: 36px;
+    min-height: auto;
     padding-block: 40px;
   }
 
+  .hero::before {
+    background: linear-gradient(
+      90deg,
+      rgba(248, 247, 237, 0.97) 0%,
+      rgba(248, 247, 237, 0.90) 55%,
+      rgba(248, 247, 237, 0.55) 100%
+    );
+  }
+
+  .hero-content {
+    width: calc(100% - 40px);
+  }
+
   .hero h1 {
+    margin: 22px 0;
     font-size: clamp(46px, 11.8vw, 73px);
     letter-spacing: -2.5px;
-    margin: 22px 0;
   }
 
   .lead {
     font-size: 17px;
   }
 
-  .visual {
-    aspect-ratio: 1.1;
+  .button {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 26px;
   }
 
   .hero-note {
     font-size: 10px;
   }
 
-  .ribbon {
+
+  /* -------------------------------------------------------
+     Brand Band
+  ------------------------------------------------------- */
+
+  .brand-band {
+    padding: 20px 0;
+  }
+
+  .brand-band .wrap {
+    gap: 17px;
+  }
+
+  .brand-band p {
+    font-size: 18px;
+  }
+
+  .brand-band img {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+
+
+  /* -------------------------------------------------------
+     Ribbon
+  ------------------------------------------------------- */
+
+  .ribbon-inner {
     grid-template-columns: 1fr;
     gap: 10px;
     padding-block: 25px;
@@ -813,11 +1538,16 @@ a:hover {
   }
 
   .ribbon a {
-    text-align: left;
     min-height: 30px;
     display: flex;
     align-items: center;
+    text-align: left;
   }
+
+
+  /* -------------------------------------------------------
+     Sections
+  ------------------------------------------------------- */
 
   .section {
     padding-block: 46px;
@@ -833,7 +1563,45 @@ a:hover {
     font-size: 36px;
   }
 
+
+  /* -------------------------------------------------------
+     Issue Image
+  ------------------------------------------------------- */
+
+  .hero-media {
+    margin-top: 36px;
+    padding:
+      9px
+      0
+      0
+      9px;
+  }
+
+  .hero-media::before {
+    inset: 0 10px 16px 0;
+  }
+
+  .scene {
+    aspect-ratio: 1.12;
+  }
+
+  .scene-caption {
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+  }
+
+  .scene-caption p {
+    font-size: 25px;
+  }
+
+
+  /* -------------------------------------------------------
+     Pathway
+  ------------------------------------------------------- */
+
   .pathway {
+    grid-template-columns: 1fr;
     gap: 13px;
   }
 
@@ -845,17 +1613,114 @@ a:hover {
     font-size: 12px;
   }
 
-  .stat-number {
-    font-size: 96px;
+
+  /* -------------------------------------------------------
+     After Use
+  ------------------------------------------------------- */
+
+  .after-use {
+    background-position: center;
   }
 
-  .stat-label {
-    font-size: 12px;
+  .after-use::before {
+    background: linear-gradient(
+      180deg,
+      rgba(248, 247, 237, 0.97) 0%,
+      rgba(248, 247, 237, 0.90) 65%,
+      rgba(248, 247, 237, 0.72) 100%
+    );
   }
+
+  .after-use-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .after-use-heading .intro-note {
+    max-width: 100%;
+    margin-top: 24px;
+  }
+
+  .after-use-kid {
+    width: min(100%, 260px);
+    margin-top: 22px;
+  }
+
+  .journey-step {
+    grid-template-columns: 46px 1fr;
+    gap: 14px;
+
+    padding: 18px;
+    margin-bottom: 10px;
+  }
+
+  .journey-step > span {
+    width: 34px;
+    height: 34px;
+  }
+
+  .journey-step b {
+    margin-top: 1px;
+    font-size: 15px;
+  }
+
+  .journey-step p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .journey-line {
+    height: 10px;
+    margin-left: 25px;
+  }
+
+  .after-use-note {
+    margin-top: 26px;
+    padding: 20px;
+  }
+
+  .after-use-note p:not(.tag) {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+
+  /* -------------------------------------------------------
+     Evidence
+  ------------------------------------------------------- */
 
   .evidence .intro-note {
     max-width: 100%;
   }
+
+  .stat-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .stat-number {
+    font-size: 82px;
+    letter-spacing: -5px;
+  }
+
+  .stat-label {
+    max-width: none;
+    font-size: 12px;
+  }
+
+  .evidence .stat-copy {
+    font-size: 17px;
+  }
+
+  .audit-detail h3 {
+    font-size: 27px;
+  }
+
+
+  /* -------------------------------------------------------
+     Closing
+  ------------------------------------------------------- */
 
   .closing {
     display: block;
@@ -870,326 +1735,64 @@ a:hover {
     margin-top: 17px;
   }
 
+
+  /* -------------------------------------------------------
+     Footer
+  ------------------------------------------------------- */
+
   .footer {
     flex-direction: column;
     gap: 14px;
   }
 
   .footer .credit {
-    text-align: left;
     max-width: 100%;
-  }
-}
-
-.stat-number {
-  white-space: nowrap;
-}
-
-.stat-top {
-  flex-wrap: wrap;
-}
-
-@media (max-width: 700px) {
-  .stat-top {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    margin-top: 4px;
+    text-align: left;
   }
 
-  .stat-number {
-    font-size: 82px;
-    letter-spacing: -5px;
-  }
 
-  .stat-label {
-    max-width: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-.hero h1 em {
-  color: #00533f;
-}
-
-.hero {
-  gap: 54px;
-}
-
-.hero-media {
-  margin: 0;
-  position: relative;
-  padding: 14px 0 0 14px;
-  isolation: isolate;
-}
-
-.hero-media:before {
-  content: "";
-  position: absolute;
-  inset: 0 15px 22px 0;
-  background: #ffbe00;
-  transform: rotate(-2deg);
-  z-index: -1;
-}
-
-.scene {
-  position: relative;
-  aspect-ratio: 1/1.08;
-  overflow: hidden;
-  background: #214c3b;
-}
-
-.scene > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.scene:after {
-  content: "";
-  position: absolute;
-  inset: 45% 0 0;
-  background: linear-gradient(transparent, rgba(0, 35, 24, 0.94));
-}
-
-.scene-caption {
-  position: absolute;
-  bottom: 26px;
-  left: 26px;
-  right: 26px;
-  color: white;
-  z-index: 1;
-}
-
-.scene-caption small {
-  display: block;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  font-weight: 700;
-  color: #ffdc70;
-  margin-bottom: 12px;
-}
-
-.scene-caption p {
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.15;
-  margin: 0;
-  max-width: 310px;
-}
-
-.brand-band {
-  border-top: 1px solid #cad6c7;
-  padding: 24px 0;
-  margin-top: 0;
-}
-
-.brand-band .wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 28px;
-}
-
-.brand-band p {
-  margin: 0;
-  font-size: 21px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  line-height: 1.35;
-  max-width: 850px;
-}
-
-.brand-band img {
-  width: 90px;
-  height: 90px;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  flex: 0 0 64px;
-  display: block;
-}
-
-.footer .footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-top: 12px;
-}
-
-.footer-links a {
-  min-height: 32px;
-  display: flex;
-  align-items: center;
-}
-
-.disclaimer-page {
-  display: none;
-  max-width: 900px;
-  margin: auto;
-  padding: 42px 40px 60px;
-}
-
-.disclaimer-page:target {
-  display: block;
-}
-
-.disclaimer-page:target ~ .home-page {
-  display: none;
-}
-
-.disclaimer-page header {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  align-items: center;
-  border-bottom: 1px solid #ced5c9;
-  padding-bottom: 24px;
-  margin-bottom: 38px;
-}
-
-.disclaimer-page header img {
-  width: 190px;
-  height: auto;
-}
-
-.disclaimer-page a {
-  color: #00533f;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-}
-
-.disclaimer-page h1 {
-  font-family: Georgia, serif;
-  font-size: 46px;
-  font-weight: 400;
-  letter-spacing: -1.8px;
-  line-height: 1.1;
-  margin: 0 0 28px;
-}
-
-.disclaimer-page h2 {
-  font-size: 20px;
-  line-height: 1.3;
-  margin: 28px 0 10px;
-}
-
-.disclaimer-page p {
-  font-size: 16px;
-  line-height: 1.7;
-  color: #53675e;
-  margin: 0 0 16px;
-}
-
-.disclaimer-page .kicker {
-  font-size: 11px;
-  color: #00533f;
-}
-
-.disclaimer-page .disclaimer-home {
-  border-top: 1px solid #ced5c9;
-  margin-top: 30px;
-  padding-top: 20px;
-}
-
-@media (max-width: 700px) {
-  .brand img {
-    width: 165px;
-  }
-
-  .hero {
-    gap: 30px;
-  }
-
-  .hero-media {
-    padding-left: 9px;
-    padding-top: 9px;
-  }
-
-  .scene {
-    aspect-ratio: 1.12;
-  }
-
-  .scene-caption {
-    left: 22px;
-    bottom: 22px;
-  }
-
-  .scene-caption p {
-    font-size: 25px;
-  }
-
-  .brand-band .wrap {
-    gap: 17px;
-  }
-
-  .brand-band p {
-    font-size: 18px;
-  }
-
-  .brand-band img {
-    width: 48px;
-    height: 48px;
-  }
+  /* -------------------------------------------------------
+     Disclaimer
+  ------------------------------------------------------- */
 
   .disclaimer-page {
     padding: 25px 22px 40px;
-  }
-
-  .disclaimer-page header img {
-    width: 145px;
-  }
-
-  .disclaimer-page h1 {
-    font-size: 36px;
   }
 
   .disclaimer-page header {
     gap: 14px;
   }
 
+  .disclaimer-page header strong {
+    font-size: 16px;
+  }
+
   .disclaimer-page header a {
     font-size: 13px;
   }
 
-  .footer .credit {
-    margin-top: 4px;
+  .disclaimer-page h1 {
+    font-size: 36px;
   }
 }
 
-.audit-detail {
-  border-top: 1px solid #536b5d;
-  margin-top: 30px;
-  padding-top: 22px;
-}
 
-.audit-detail h3 {
-  font-family: Georgia, serif;
-  font-size: clamp(24px, 3vw, 32px);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.7px;
-  margin: 14px 0 8px;
-}
+/* =========================================================
+   20. REDUCED MOTION
+========================================================= */
 
-.audit-detail p {
-  font-size: 16px;
-  line-height: 1.65;
-  color: #d2ddd3;
-}
+@media (prefers-reduced-motion: reduce) {
 
-.audit-detail .scope {
-  display: inline-block;
-  margin: 0;
-}
+  html {
+    scroll-behavior: auto;
+  }
 
-.audit-detail .source-link {
-  margin-top: 18px;
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
